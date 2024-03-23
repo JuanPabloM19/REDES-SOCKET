@@ -1,9 +1,0 @@
-[2024-03-23 19:59:44] Servidor iniciado. Esperando conexiones entrantes...
-[2024-03-23 19:59:48] Conexión establecida desde ('127.0.0.1', 62753)
-[2024-03-23 19:59:52] Recibido del cliente: Opción 1
-[2024-03-23 20:00:02] Recibido del cliente: Texto hola buenos dias
-[2024-03-23 20:00:02] Enviado al cliente: Texto convertido a MAYÚSCULAS HOLA BUENOS DIAS
-[2024-03-23 20:00:15] Recibido del cliente: Opción 2
-[2024-03-23 20:00:19] Recibido del cliente: Primer número 1
-[2024-03-23 20:00:19] Recibido del cliente: Segundo número 2
-[2024-03-23 20:00:19] Enviado al cliente: Resultado de la suma La suma de 1 y 2 es: 3

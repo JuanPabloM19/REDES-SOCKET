@@ -4,9 +4,23 @@ import datetime
 # Dirección y puerto del servidor socket
 SERVER_ADDRESS = ('localhost', 23456)
 
+# Función para crear un archivo de registro
+def create_log_file():
+    filename = f'server_log_{datetime.datetime.now().strftime("%Y%m%d%H%M%S")}.txt'
+    with open(filename, 'w') as file:
+        file.write(f'Server log created at {datetime.datetime.now()}\n')
+    return filename
+
+# Crear un archivo de registro
+log_file = create_log_file()
+
+# Función para registrar las actividades del servidor
 def log_activity(message):
     timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    print(f'[{timestamp}] {message}')
+    log_message = f'[{timestamp}] {message}\n'
+    with open(log_file, 'a') as file:
+        file.write(log_message)
+    print(log_message, end='')
 
 # Función para convertir texto de minúsculas a MAYÚSCULAS
 def convert_to_uppercase(text):
@@ -72,6 +86,7 @@ while True:
                 text = connection.recv(1024).decode().strip()
                 converted_text = convert_to_uppercase(text)
                 connection.sendall(converted_text.encode())
+                log_activity(f"Recibido del cliente: '{text}'. Enviado al cliente: '{converted_text}'")
             elif option == '2':
                 # Si la opción es realizar la suma de dos números
                 connection.sendall(response.encode())
@@ -79,14 +94,17 @@ while True:
                 num2 = connection.recv(1024).decode().strip()  # Aquí debería ser solo una vez
                 result = sum_two_numbers(num1, num2)
                 connection.sendall(result.encode())
+                log_activity(f"Recibido del cliente: '{num1}' y '{num2}'. Enviado al cliente: '{result}'")
             elif option == '3':
                 # Si la opción es mostrar la fecha y hora actual
                 connection.sendall(response.encode())
                 current_datetime = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 connection.sendall(current_datetime.encode())
+                log_activity(f"Enviado al cliente: '{current_datetime}'")
             else:
                 # Si la opción no es válida
                 connection.sendall(response.encode())
+                log_activity(f"Opción no válida enviada al cliente: '{option}'")
 
     except ConnectionResetError:
         log_activity("Conexión cerrada por el cliente.")
@@ -95,3 +113,5 @@ while True:
     finally:
         # Cerrar la conexión
         connection.close()
+
+log_activity("Servidor cerrado.")
